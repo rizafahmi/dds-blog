@@ -43,11 +43,27 @@ To add Cowboy to our project, simply add Cowboy as the dependency inside `mix.ex
     {:cowboy, "1.0.0"}
   end
 
-We need also add `:cowboy` under `applications` function while we still editing `mix.exs`.
+We need also add `:cowboy` under `applications` function while we're editing `mix.exs`.
 
   def application do
-
+    [applications: [:logger, :cowboy],
+     mod: {DdsBlog, []}]
   end
+
+Now run `mix deps.get` to pull all deps needed (Cowboy and it's deps as well).
+
+  $ mix deps.get
+  Running dependency resolution
+  Unlocked:   cowboy
+  Dependency resolution completed successfully
+    ranch: v1.0.0
+    cowlib: v1.0.1
+    cowboy: v1.0.0
+
+  [..]
+
+As you can see, we're pulling not only Cowboy package but also `cowlib` and `ranch` as packages that Cowboy's dependent on.
+
 
 
 ## References

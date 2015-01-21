@@ -17,7 +17,7 @@ What we need to accomplish this project is:
 * Cowboy version 1.0.1,
 * ExDoc as markdown tools
 
-Ready, set go!
+Ready, steady, go!
 
 ## Creating Elixir Project
 
@@ -207,6 +207,40 @@ in the console. Otherwise you should be ok. Open up your browser and pointing ou
 the most beautiful message in the programming world :)
 
 ![Hello world](http://i.imgur.com/J1jgiBh.png)
+
+## Static Cowboy
+
+Let's add Cowboy to recognise static files: images, css, javascripts, etc. Everytime
+we hit `http://localhost:8000/static/` it will relate to static folders that we will create
+shortly. But first, open up `lib/dds_blog.ex` and add one route for static files.
+
+      def run do
+        routes = [
+          {"/:something", DdsBlog.Handler, []},
+          {"/static/[...]", :cowboy_static, {:priv_dir, :dds_blog, "static_files"}}
+        ]
+
+        dispatch = :cowboy_router.compile([{:_, routes}])
+
+        opts = [port: 8000]
+        env = [dispatch: dispatch]
+
+        {:ok, _pid} = :cowboy.start_http(:http, 100, opts, [env: env])
+      end
+
+Don't forget to add `priv/static_files`. All our static files
+will be in this directory.
+
+    $> mkdir -p priv/static_files
+
+Re-run `iex -S mix` command and then let's try to add static file inside `static_files`
+folder for sanity check. Then try to access it on the browser.
+
+![lily](http://i.imgur.com/ijQEq98.png)
+
+
+Easy, right?!
+
 
 
 ## References

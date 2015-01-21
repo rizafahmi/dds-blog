@@ -68,9 +68,76 @@ As you can see, we're pulling not only Cowboy package but also `cowlib` and `ran
 
 Ok now we'll create a helper function that defines a set of routes for our project.
 
-  [code]
+    def run do
+      routes = [
+        {"/", DdsBlog.Handler, []}
+      ]
+
+      dispatch = :cowboy_router.compile([{:_, routes}])
+
+      opts = [port: 8000]
+      env = [dispatch: dispatch]
+
+      {:ok, _pid} = :cowboy.start_http(:http, 100, opts, [env: env])
+    end
+
+Oh yeah, we also calling this `run` function as soon this application started. This
+step optional by the way. You still able to run the application but you have to
+calling it manually. Then our code bacame something like this:
+
+    defmodule DdsBlog do
+      use Application
+
+      def start(_type, _args) do
+        import Supervisor.Spec, warn: false
+
+        children = [
+          worker(__MODULE, [], function: :run)
+        ]
+
+        opts = [strategy: :one_for_one, name: DdsBlog.Supervisor]
+        Supervisor.start_link(children, opts)
+      end
+
+      def run do
+        routes = [
+          {"/", DdsBlog.Handler, []}
+        ]
+
+        dispatch = :cowboy_router.compile([{:_, routes}])
+
+        opts = [port: 8000]
+        env = [dispatch: dispatch]
+
+        {:ok, _pid} = :cowboy.start_http(:http, 100, opts, [env: env])
+      end
+    end
+
+Now when we run our application, it will respond to all requests to `http://localhost:8000/`.
+
+## Creating Handler
+
+As you can see on the code above, we did pointing out route `"/"` into `DdsBlog.Handler`.
+Now we need to create that module to return some responses for any requests received.
+Let's create a new file in `lib/dds_blog/handler.ex` and put this code below.
 
 
+    defmodule DdsBlog.Handler do
+      def init({:tcp, :http}, req, opts) do
+        headers = [{"content-type", "text/plain"}]
+        body = "Hello program!"
+        {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+        {:ok, resp, opts}
+      end
+
+      def handle(req, state) do
+        {:ok, req, state}
+      end
+
+      def terminate(_reason, _req, _state) do
+        :ok
+      end
+    end
 
 ## References
 

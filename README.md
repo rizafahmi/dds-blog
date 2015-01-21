@@ -64,6 +64,12 @@ Now run `mix deps.get` to pull all deps needed (Cowboy and it's deps as well).
 
 As you can see, we're pulling not only Cowboy package but also `cowlib` and `ranch` as packages that Cowboy's dependent on.
 
+## Create Cowboy Routes
+
+Ok now we'll create a helper function that defines a set of routes for our project.
+
+  [code]
+
 
 
 ## References

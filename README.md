@@ -139,6 +139,76 @@ Let's create a new file in `lib/dds_blog/handler.ex` and put this code below.
       end
     end
 
+`init` function doing a lot of works. First, it tells Cowboy of what kind of connectins
+we wish to handle (HTTP via TCP). Then we use `:cowboy_req.reply` with status code of 200,
+a list of headers, a response body and the request itself.
+We will not touch `handle` and `terminate` for now. Let's consider it as boilerplate
+code for now.
+
+## Running For The First Time
+
+Now it's the time for us to run this application for the first time.
+
+    $> iex -S mix
+    Erlang/OTP 17 [erts-6.2] [source] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:false] [dtrace]
+
+    ==> ranch (compile)
+    Compiled src/ranch_transport.erl
+    Compiled src/ranch_sup.erl
+    Compiled src/ranch_tcp.erl
+    Compiled src/ranch_ssl.erl
+    Compiled src/ranch_protocol.erl
+    Compiled src/ranch_listener_sup.erl
+    Compiled src/ranch_app.erl
+    Compiled src/ranch_acceptors_sup.erl
+    Compiled src/ranch_acceptor.erl
+    Compiled src/ranch.erl
+    Compiled src/ranch_server.erl
+    Compiled src/ranch_conns_sup.erl
+    ==> cowlib (compile)
+    Compiled src/cow_qs.erl
+    Compiled src/cow_spdy.erl
+    Compiled src/cow_multipart.erl
+    Compiled src/cow_http_te.erl
+    Compiled src/cow_http_hd.erl
+    Compiled src/cow_date.erl
+    Compiled src/cow_http.erl
+    Compiled src/cow_cookie.erl
+    Compiled src/cow_mimetypes.erl
+    ==> cowboy (compile)
+    Compiled src/cowboy_sub_protocol.erl
+    Compiled src/cowboy_middleware.erl
+    Compiled src/cowboy_websocket_handler.erl
+    Compiled src/cowboy_sup.erl
+    Compiled src/cowboy_static.erl
+    Compiled src/cowboy_spdy.erl
+    Compiled src/cowboy_router.erl
+    Compiled src/cowboy_websocket.erl
+    Compiled src/cowboy_protocol.erl
+    Compiled src/cowboy_loop_handler.erl
+    Compiled src/cowboy_http_handler.erl
+    Compiled src/cowboy_rest.erl
+    Compiled src/cowboy_handler.erl
+    Compiled src/cowboy_clock.erl
+    Compiled src/cowboy_bstr.erl
+    Compiled src/cowboy_app.erl
+    Compiled src/cowboy_http.erl
+    Compiled src/cowboy.erl
+    Compiled src/cowboy_req.erl
+    Compiled lib/dds_blog/handler.ex
+    Compiled lib/dds_blog.ex
+    Generated dds_blog.app
+
+    Interactive Elixir (1.0.1) - press Ctrl+C to exit (type h() ENTER for help)
+    iex(1)>
+
+If didn't add `run` function as a worker child in the supervisor tree, just run in
+in the console. Otherwise you should be ok. Open up your browser and pointing out to `http://localhost:8000/` then you'll see
+the most beautiful message in the programming world :)
+
+![Hello world](http://i.imgur.com/J1jgiBh.png)
+
+
 ## References
 
 * http://learnyousomeerlang.com/what-is-otp

@@ -268,6 +268,9 @@ This route will accept anything user input in their urls.  Then we also need to 
 [Query]() will accept `http://localhost:8000/?query=yes` kind of format. But we want
 to achieve `http://localhost:8000/some-file` so we use [bindings](http://ninenines.eu/docs/en/cowboy/1.0/manual/cowboy_req/index.html#bindings).
 
+Now let's open `lib/dds_blog/handler.ex` and we will handle file that requested by user via urls.
+But first we open just one markdown file for sanity check, as usual.
+
 
 ## References
 

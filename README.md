@@ -271,6 +271,81 @@ to achieve `http://localhost:8000/some-file` so we use [bindings](http://ninenin
 Now let's open `lib/dds_blog/handler.ex` and we will handle file that requested by user via urls.
 But first we open just one markdown file for sanity check, as usual.
 
+    def init({:tcp, :http}, req, opts) do
+      {:ok, req, opts}
+    end
+
+    def handle(req, state) do
+      {method, req} = :cowboy_req.method(req)
+      {param, req} = :cowboy_req.binding(:filename, req)
+      IO.inspect param
+      {:ok, req} = get_file(method, param, req)
+      {:ok, req, state}
+    end
+
+    def get_file("GET", :undefined, req) do
+      headers = [{"content-type", "text/plain"}]
+      body = "Ooops. Article not exists!"
+      {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+    end
+
+    def get_file("GET", param, req) do
+      headers = [{"content-type", "text/html"}]
+      {:ok, file} = File.read "priv/contents/filename.md"
+      body = file
+      {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+    end
+
+And then we put some markdown file, just rename it to `filename.md` and put it to
+`priv/contenst` folder. Make it if the folder doesn't exist yet.
+What we've done is first we do use `:cowboy.bindings` to get a filename from
+urls. Then we passed the parameter into helper function called `get_file`.
+`get_file` function have two type: one with parameter and one more without parameter (a.k.a `:undefined` parameter).
+If user didn't include filename in the url, our app will call `get_file` `:undefined`
+ and return message "Article doesn't exist". Otherwise, it will call 
+`get_file` with `param`.
+After the app received parameter, it will read a file we put inside `priv/contents`
+directory, for this moment, we just read the exact file called `filename.md`.
+Then we print it as response to the user.
+
+![Markdown raw](http://i.imgur.com/NHq0fHP.png)
+
+It prints out markdown as raw. To make it return html we need to convert markdown 
+to html first. To do that, we need a package to handle that. Add `markdown` package into `mix.exs` file.
+
+    defp deps do
+      [
+        {:cowboy, "1.0.0"},
+        {:markdown, github: "devinus/markdown"}
+      ]
+    end
+
+Then get the dependencies with `mix`.
+
+    $> mix deps.get
+
+After that, now we can access `Markdown` module and use `to_html` to convert markdown into
+html format. Let's do that now in `lib/dds_blog/handler.ex` file inside `get_file` function.
+
+
+    def get_file("GET", :undefined, req) do
+      headers = [{"content-type", "text/plain"}]
+      body = "Ooops. Article not exists!"
+      {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+    end
+
+    def get_file("GET", param, req) do
+      headers = [{"content-type", "text/html"}]
+      {:ok, file} = File.read "priv/contents/filename.md"
+      body = Markdown.to_html file
+      {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+    end
+
+That's it! Quit and restart `iex -S mix` and refersh your browser. It's html now.
+
+![Imgur](http://i.imgur.com/hZwprG6.png)
+
+
 
 ## References
 

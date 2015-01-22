@@ -14,7 +14,7 @@ defmodule DdsBlog do
 
   def run do
     routes = [
-      {"/", DdsBlog.Handler, []},
+      {"/:filename", DdsBlog.Handler, []},
       {"/static/[...]", :cowboy_static, {:priv_dir, :dds_blog, "static_files"}}
     ]
 

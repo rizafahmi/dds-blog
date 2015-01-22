@@ -241,6 +241,32 @@ folder for sanity check. Then try to access it on the browser.
 
 Easy, right?!
 
+## Serve Markdown File
+
+This is where the fun begin. The idea is this: when user entry `http://localhost:8000/some-markdown-file`
+our application will look through file named `some-markdown-file.md` inside `priv/contents/` folder,
+read through it, convert into html format and return it so the user will received
+html contents in their browser as the response.
+
+First thing first, let's change our Cowboy route to accomodate that.
+
+    def run do
+      routes = [
+        {"/:filename", DdsBlog.Handler, []},
+        {"/static/[...]", :cowboy_static, {:priv_dir, :dds_blog, "static_files"}}
+      ]
+
+      dispatch = :cowboy_router.compile([{:_, routes}])
+
+      opts = [port: 8000]
+      env = [dispatch: dispatch]
+
+      {:ok, _pid} = :cowboy.start_http(:http, 100, opts, [env: env])
+    end
+
+This route will accept anything user input in their urls.  Then we also need to change our handler function in `dds_blog/handler.ex`. In Cowboy term, this called [bindings](http://ninenines.eu/docs/en/cowboy/1.0/manual/cowboy_req/index.html#bindings). At first, I though it's [query strings](http://ninenines.eu/docs/en/cowboy/1.0/manual/cowboy_req/index.html#qs_vals), but I was wrong.
+[Query]() will accept `http://localhost:8000/?query=yes` kind of format. But we want
+to achieve `http://localhost:8000/some-file` so we use [bindings](http://ninenines.eu/docs/en/cowboy/1.0/manual/cowboy_req/index.html#bindings).
 
 
 ## References

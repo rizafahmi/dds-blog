@@ -346,6 +346,16 @@ That's it! Quit and restart `iex -S mix` and refersh your browser. It's html now
 ![Imgur](http://i.imgur.com/hZwprG6.png)
 
 
+Very cool! Ok, let's take a break. It's exhausting...
+
+![meme](http://i.imgur.com/b6H4wKI.jpg)
+
+
+Get back to work!!
+
+
+
+
 
 ## References
 

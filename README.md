@@ -351,8 +351,34 @@ Very cool! Ok, let's take a break. It's exhausting...
 ![meme](http://i.imgur.com/b6H4wKI.jpg)
 
 
-Get back to work!!
+Now, get back to work!! We need to read the `param` variable and load
+markdown file inside `priv/contents/` directory. To do that
+we just use concatenate string then read the file. After file loaded,
+we convert it into html then return it.
 
+
+    def get_file("GET", :undefined, req) do
+      headers = [{"content-type", "text/plain"}]
+      body = "Ooops. Article not exists!"
+      {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+    end
+
+    def get_file("GET", param, req) do
+      headers = [{"content-type", "text/html"}]
+      {:ok, file} = File.read "priv/contents/" <> param <> ".md"
+      body = Markdown.to_html file
+      {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+    end
+
+Let's copy one more markdown file into `priv/contents/` folder then restart
+the `iex -S mix` command. Then we call the file from the browser.
+We copy file called `basicfp.md` and calling it with `http://localhost:8000/basicfp`. And, viola!
+
+![basicfp](http://i.imgur.com/K5gT0Y7.png)
+
+Really cool, right?!
+
+Now we need index page. Index page will show you a glipse of all contents we have. We need to iterate through `priv/contents` folder, we get all markdown file then we print it in the index file.
 
 
 

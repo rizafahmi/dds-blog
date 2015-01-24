@@ -6,7 +6,6 @@ defmodule DdsBlog.Handler do
   def handle(req, state) do
     {method, req} = :cowboy_req.method(req)
     {param, req} = :cowboy_req.binding(:filename, req)
-    IO.inspect param
     {:ok, req} = get_file(method, param, req)
     {:ok, req, state}
   end
@@ -19,7 +18,7 @@ defmodule DdsBlog.Handler do
 
   def get_file("GET", param, req) do
     headers = [{"content-type", "text/html"}]
-    {:ok, file} = File.read "priv/contents/filename.md"
+    {:ok, file} = File.read "priv/contents/" <> param <> ".md"
     body = Markdown.to_html file
     {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
   end

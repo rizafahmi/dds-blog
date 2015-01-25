@@ -381,6 +381,51 @@ Really cool, right?!
 Now we need index page. Index page will show you a glipse of all contents we have. We need to iterate through `priv/contents` folder, we get all markdown file then we print it in the index file.
 
 
+    def get_file("GET", :undefined, req) do
+      headers = [{"content-type", "text/html"}]
+      file_lists = File.ls! "priv/contents/"
+      content = print_articles file_lists, ""
+      {:ok, resp} = :cowboy_req.reply(200, headers, content, req)
+    end
+
+    def get_file("GET", param, req) do
+      headers = [{"content-type", "text/html"}]
+      {:ok, file} = File.read "priv/contents/" <> param <> ".md"
+      body = Markdown.to_html file
+      {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+    end
+
+
+    def print_articles [h|t], index_contents do
+      {:ok, article} = File.read "priv/contents/" <> h
+      sliced = String.slice article, 0, 1000
+      marked = Markdown.to_html sliced
+      filename = String.slice(h, 0, String.length(h) - 3)
+      more = "<a class='button' href='#{filename}'>More</a><hr />"
+      print_articles t, index_contents <> marked <> more
+    end
+
+    def print_articles [], index_contents do
+      index_contents
+    end
+
+When the routes didn't received any param, we will print index page. We show all the files inside `priv/contents` using the power of functional programming: recursive. Take a look at two `print_articles` function. First of we start the recursive by calling `print_articles` function with list of files we've got from `File.ls` command followed by empty string. `print_articles` will loop through (read file and concatenate) all files until it reached an empty list then it will call the second `print_articles` function that simply do the termination point of the recursive. Then we also did truncated it so it's not too long and also we add more button linked to full article.
+
+Re-run `iex -S mix` command and let check if it's worked. Now pointing out our browser to `http://localhost:8000/` and we will see all the articles, truncated and with `More` button followed with `<hr />` tag. Very nice, right?!
+
+![truncated](http://i.imgur.com/Y29KOT1.png)
+
+And if you click `More`, the link also working well, redirect us into full article view.
+
+> If you noticed, the markdown file didn't truncated properly. If you know how to truncated markdown properly, please let me know.
+
+
+## Templates And Themes
+
+When you view source our page, both index page or detail page, it will prints out markdown file immedietely so the page is not html format properly. We need to taken care of it by prints out the markdown content inside some divs. This is what we will do now, includes adding some css framework to make our page beauty.
+
+We will use [Skeleton, a responsive css boilerplate](http://getskeleton.com/). You free to use any other css framework out there. Download the css files, and images (and or javascript as well, if includes in the framework) then copy it into our static file directory `priv/static_files`.
+
 
 
 ## References

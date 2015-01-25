@@ -11,9 +11,10 @@ defmodule DdsBlog.Handler do
   end
 
   def get_file("GET", :undefined, req) do
-    headers = [{"content-type", "text/plain"}]
-    body = "Ooops. Article not exists!"
-    {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+    headers = [{"content-type", "text/html"}]
+    file_lists = File.ls! "priv/contents/"
+    content = print_articles file_lists, ""
+    {:ok, resp} = :cowboy_req.reply(200, headers, content, req)
   end
 
   def get_file("GET", param, req) do
@@ -21,6 +22,19 @@ defmodule DdsBlog.Handler do
     {:ok, file} = File.read "priv/contents/" <> param <> ".md"
     body = Markdown.to_html file
     {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+  end
+
+  def print_articles [h|t], index_contents do
+    {:ok, article} = File.read "priv/contents/" <> h
+    sliced = String.slice article, 0, 1000
+    marked = Markdown.to_html sliced
+    filename = String.slice(h, 0, String.length(h) - 3)
+    more = "<a class='button' href='#{filename}'>More</a><hr />"
+    print_articles t, index_contents <> marked <> more
+  end
+
+  def print_articles [], index_contents do
+    index_contents
   end
 
   def terminate(_reason, _req, _state) do

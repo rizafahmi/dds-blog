@@ -545,7 +545,6 @@ Refresh the browser, just to see everything is ok. And we're done.
 ## Conclusion
 
 We did a great job pulling it out together this simple flat file blogging engine.
-Now we realize how powerfull it is Elixir was.
 We built this engine just use two packages: `Cowboy` and `markdown`.
 How cool is that?!
 I know, I know, some portion of the code maybe a little be naive but we finish

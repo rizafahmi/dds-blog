@@ -9,7 +9,7 @@ By creating this blogging engine, we will learn more about certain topics:
 * Learn how to serve static files (images, css, javascript) with cowboy,
 * Read and convert markdown file into html,
 * Dynamically load markdown files depend on URL we requested on browser,
-* Add themes and templating.
+* Add themes and templating using `EEx` rendering and string manipulation.
 
 What we need to accomplish this project is:
 

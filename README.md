@@ -526,10 +526,33 @@ Let's do the More button first. Just add class `button button-primary` to the `a
 
 We should refactor this thing a little bit. By moving out the html thingy to themes folder then we just eval `eex` into `more` variable.
 
-TODO
+    def print_articles [h|t], index_contents do
+      {:ok, article} = File.read "priv/contents/" <> h
+      sliced = String.slice article, 0, 1000
+      marked = Markdown.to_html sliced
+      filename = String.slice(h, 0, String.length(h) - 3)
+      more = EEx.eval_file "priv/themes/more_button.html.eex", [filename: filename]
+      print_articles t, index_contents <> marked <> more
+    end
 
+And now we create new template named `priv/themes/more_button.html.eex` wit just one
+line of button and `hr` tag. Then we will binding a filename into that.
 
-Now let's add header and footer.
+    <a class='button button-primary' href='<%= filename %>'>More</a><hr />
+
+Refresh the browser, just to see everything is ok. And we're done.
+
+## Conclusion
+
+We did a great job pulling it out together this simple flat file blogging engine.
+Now we realize how powerfull it is Elixir was.
+We built this engine just use two packages: `Cowboy` and `markdown`.
+How cool is that?!
+I know, I know, some portion of the code maybe a little be naive but we finish
+our mission and that's the important thing, right?! We can always improve anything else later.
+
+This is the [full code](https://github.com/rizafahmi/dds-blog). You can always send us
+some issues and pull request there. That's it for me and see you next time!
 
 ## References
 

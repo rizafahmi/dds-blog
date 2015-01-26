@@ -16,7 +16,7 @@ defmodule DdsBlog.Handler do
     content = print_articles file_lists, ""
     title = "Welcome to DDS Blog"
     body = EEx.eval_file "priv/themes/index.html.eex", [content: content, title: title]
-    {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+    {:ok, _resp} = :cowboy_req.reply(200, headers, body, req)
   end
 
   def get_file("GET", param, req) do
@@ -33,7 +33,7 @@ defmodule DdsBlog.Handler do
     sliced = String.slice article, 0, 1000
     marked = Markdown.to_html sliced
     filename = String.slice(h, 0, String.length(h) - 3)
-    more = "<a class='button button-primary' href='#{filename}'>More</a><hr />"
+    more = EEx.eval_file "priv/themes/more_button.html.eex", [filename: filename]
     print_articles t, index_contents <> marked <> more
   end
 

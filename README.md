@@ -426,9 +426,113 @@ When you view source our page, both index page or detail page, it will prints ou
 
 We will use [Skeleton, a responsive css boilerplate](http://getskeleton.com/). You free to use any other css framework out there. Download the css files, and images (and or javascript as well, if includes in the framework) then copy it into our static file directory `priv/static_files`.
 
+    priv/static_files/
+    ├── css
+    │   ├── normalize.css
+    │   └── skeleton.css
+    └── images
+        └── favicon.png
 
+
+We also create new folder `priv/themes` to put our template file there. Let's add one file called `index.html.eex`. Notice that we add `eex` extension to html file because we want to binds some variables to the html file using `EEx` templating engine provided by Elixir.
+
+    priv/themes/
+    └── index.html.eex
+
+Now we edit that `index.html.eex` file and replace static file url.to meet our Cowboy static url settings.
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+
+      <!-- Basic Page Needs
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <meta charset="utf-8">
+      <title><%= title %></title>
+      <meta name="description" content="">
+      <meta name="author" content="">
+
+      <!-- Mobile Specific Metas
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <!-- FONT
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+      <!-- CSS
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <link rel="stylesheet" href="/static/css/normalize.css">
+      <link rel="stylesheet" href="/static/css/skeleton.css">
+
+      <!-- Favicon
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <link rel="icon" type="image/png" href="static/images/favicon.png">
+
+    </head>
+    <body>
+
+      <!-- Primary Page Layout
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <div class="container">
+        <div class="row">
+          <%= content %>
+        </div>
+      </div>
+
+    <!-- End Document
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    </body>
+    </html>
+
+As you can see, we also adding `<%= content %>` to bind content variable inside our `container>row` divs. Then we can compile the `eex` file and return html inside our `handler.ex` file. Let's do that right now. We also add `<%= title %>` to add html title changes if we move through pages.
+
+    def get_file("GET", :undefined, req) do
+      headers = [{"content-type", "text/html"}]
+      file_lists = File.ls! "priv/contents/"
+      content = print_articles file_lists, ""
+      title = "Welcome to DDS Blog"
+      body = EEx.eval_file "priv/themes/index.html.eex", [content: content, title: title]
+      {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+    end
+
+    def get_file("GET", param, req) do
+      headers = [{"content-type", "text/html"}]
+      {:ok, file} = File.read "priv/contents/" <> param <> ".md"
+      content = Markdown.to_html file
+      title = String.capitalize(param)
+      body = EEx.eval_file "priv/themes/index.html.eex", [content: content, title: title]
+      {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+    end
+
+
+That's it! Restart the `iex -S mix` command and see what happen in your browser by refresh it.
+
+![Beauty](http://i.imgur.com/qlSIW6w.png)
+
+If we click More button we also see one beautiful detail page. We're pretty much finish here, but before we warp up, let's add a header, footer and make More button more appealing to click.
+
+Let's do the More button first. Just add class `button button-primary` to the `a` tag.
+
+    def print_articles [h|t], index_contents do
+      {:ok, article} = File.read "priv/contents/" <> h
+      sliced = String.slice article, 0, 1000
+      marked = Markdown.to_html sliced
+      filename = String.slice(h, 0, String.length(h) - 3)
+      more = "<a class='button button-primary' href='#{filename}'>More</a><hr />"
+      print_articles t, index_contents <> marked <> more
+    end
+
+We should refactor this thing a little bit. By moving out the html thingy to themes folder then we just eval `eex` into `more` variable.
+
+TODO
+
+
+Now let's add header and footer.
 
 ## References
 
 * http://learnyousomeerlang.com/what-is-otp
 * https://github.com/ninenines/cowboy
+* http://elixir-lang.org/docs/stable/elixir/

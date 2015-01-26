@@ -39,16 +39,16 @@ To make our application running, we'll need a server that can speak HTTP. We wil
 
 To add Cowboy to our project, simply add Cowboy as the dependency inside `mix.exs` file.
 
-  defp deps do
-    {:cowboy, "1.0.0"}
-  end
+    defp deps do
+        {:cowboy, "1.0.0"}
+    end
 
 We need also add `:cowboy` under `applications` function while we're editing `mix.exs`.
 
-  def application do
-    [applications: [:logger, :cowboy],
-     mod: {DdsBlog, []}]
-  end
+    def application do
+        [applications: [:logger, :cowboy],
+        mod: {DdsBlog, []}]
+    end
 
 Now run `mix deps.get` to pull all deps needed (Cowboy and it's deps as well).
 
@@ -552,7 +552,7 @@ I know, I know, some portion of the code maybe a little be naive but we finish
 our mission and that's the important thing, right?! We can always improve anything else later.
 
 This is the [full code](https://github.com/rizafahmi/dds-blog). You can always send us
-some issues and pull request there. That's it for me and see you next time!
+some issues and pull request there for inputs, feedbacks and some contributions. That's it for me and see you next time!
 
 ## References
 

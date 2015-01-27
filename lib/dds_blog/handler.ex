@@ -12,7 +12,9 @@ defmodule DdsBlog.Handler do
 
   def get_file("GET", :undefined, req) do
     headers = [{"content-type", "text/html"}]
-    file_lists = File.ls! "priv/contents/"
+    # file_lists = File.ls! "priv/contents/"
+    {files, _} = System.cmd("ls", ["-t", "./priv/contents"])
+    file_lists = String.split(files, "\n") |> Enum.filter(fn(item) -> item != "" end)
     content = print_articles file_lists, ""
     title = "Welcome to DDS Blog"
     body = EEx.eval_file "priv/themes/index.html.eex", [content: content, title: title]
@@ -28,7 +30,7 @@ defmodule DdsBlog.Handler do
     {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
   end
 
-  def print_articles [h|t], index_contents do
+  def print_articles([h|t], index_contents) do
     {:ok, article} = File.read "priv/contents/" <> h
     sliced = String.slice article, 0, 1000
     marked = Markdown.to_html sliced

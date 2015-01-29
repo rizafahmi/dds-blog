@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="/static/css/normalize.css">
   <link rel="stylesheet" href="/static/css/skeleton.css">
   <link rel="stylesheet" href="/static/css/custom.css">
+  <link rel="stylesheet" href="/static/css/default.css">
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -47,5 +48,6 @@
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="/static/js/highlight.pack.js"></script>
 </body>
 </html>

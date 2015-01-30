@@ -28,7 +28,12 @@ defmodule DdsBlog.Handler do
       {:ok, file} ->
         content = Markdown.to_html file
         title = String.capitalize(param)
-        body = EEx.eval_file "priv/themes/index.html.eex", [content: content, title: title]
+        socials = EEx.eval_file "priv/themes/social_buttons.html.eex"
+        body = EEx.eval_file "priv/themes/index.html.eex",
+        [ content: content <> socials,
+          title: title,
+
+        ]
         {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
       {:error, _} ->
         content = "Ooopppsss.. The article not found."

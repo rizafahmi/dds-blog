@@ -41,3 +41,10 @@
   /* Re-overiding the width 100% declaration to match size of % based container */
   .has-docked-nav .navbar > .container {
     width: 80%; }
+.share-buttons{
+  list-style: none;
+}
+
+.share-buttons li{
+  display: inline;
+}

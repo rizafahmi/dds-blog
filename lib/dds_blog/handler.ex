@@ -23,11 +23,20 @@ defmodule DdsBlog.Handler do
 
   def get_file("GET", param, req) do
     headers = [{"content-type", "text/html"}]
-    {:ok, file} = File.read "priv/contents/" <> param <> ".md"
-    content = Markdown.to_html file
-    title = String.capitalize(param)
-    body = EEx.eval_file "priv/themes/index.html.eex", [content: content, title: title]
-    {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+    file_read = File.read "priv/contents/" <> param <> ".md"
+    case file_read do
+      {:ok, file} ->
+        content = Markdown.to_html file
+        title = String.capitalize(param)
+        body = EEx.eval_file "priv/themes/index.html.eex", [content: content, title: title]
+        {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
+      {:error, _} ->
+        content = "Ooopppsss.. The article not found."
+        title = "Page not found"
+        body = EEx.eval_file "priv/themes/index.html.eex", [content: content, title: title]
+        {:ok, resp} = :cowboy_req.reply(404, headers, body, req)
+
+    end
   end
 
   def print_articles([h|t], index_contents) do

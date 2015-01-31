@@ -34,13 +34,35 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
+
+
     <nav class="navbar">
       <div class="container">
         <ul class="navbar-list">
-          <li class="navbar-item"><a class="navbar-link" href="/">DDS Blog</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="/">ElixirDose: A Dose of Elixir Programming Language</a></li>
         </ul>
       </div>
     </nav>
+
+    <section class="header">
+      <h2 class="title">ElixirDose</h2>
+      <p>Journal of the overlooked tiny bits in young programming language. Will update weekly or two, as a way to build the habit of writing something on a regular basis. Authored by <a href="https://twitter.com/rizafahmi22" target="_blank">Riza</a> and <a href="https://twitter.com/augiedb" target="_blank">Augie</a> as Editor In Chief.</p>
+
+      <form action="http://elixirdose.us4.list-manage2.com/subscribe/post?u=73c2706174b7f2703c432c70c&amp;id=f7b2717e3a" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="" _lpchecked="1">
+        <div class="row">
+          <div class="six columns">
+            <input class="u-full-width" type="email" placeholder="A dose to your inbox!" name="EMAIL" id="mce=EMAIL">
+          </div>
+          <div class="six columns">
+            <button type="submit" class="button-primary">Engage!</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+
+    <hr>
+
     <div class="row" style="padding-top: 20px">
       <%= content %>
     </div>

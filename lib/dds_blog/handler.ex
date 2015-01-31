@@ -30,8 +30,9 @@ defmodule DdsBlog.Handler do
         title = String.capitalize(param)
         socials = EEx.eval_file "priv/themes/social_buttons.html.eex"
         back = EEx.eval_file "priv/themes/back_button.html.eex"
+        comments = EEx.eval_file "priv/themes/comments.html.eex"
         body = EEx.eval_file "priv/themes/index.html.eex",
-        [ content: content <> socials <> back,
+        [ content: content <> socials <> back <> comments,
           title: title,
 
         ]

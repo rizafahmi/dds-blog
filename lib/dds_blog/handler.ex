@@ -10,6 +10,26 @@ defmodule DdsBlog.Handler do
     {:ok, req, state}
   end
 
+  def render_and_generate_response({:ok, file}, params) do
+    content = Markdown.to_html file
+    title = String.capitalize(params[:param])
+    socials = EEx.eval_file "priv/themes/social_buttons.html.eex"
+    back = EEx.eval_file "priv/themes/back_button.html.eex"
+    comments = EEx.eval_file "priv/themes/comments.html.eex"
+    body = EEx.eval_file "priv/themes/index.html.eex",
+    [ content: content <> socials <> back <> comments,
+      title: title,
+
+    ]
+    {:ok, resp} = :cowboy_req.reply(200, params[:headers], body, params[:req])
+  end
+
+  def render_and_generate_response({:error, _}, params) do
+    content = "Ooopppsss.. The article not found."
+    title = "Page not found"
+    body = EEx.eval_file "priv/themes/index.html.eex", [content: content, title: title]
+    {:ok, resp} = :cowboy_req.reply(404, params[:headers], body, params[:req])
+  end
 
   def get_file("GET", :undefined, req) do
     headers = [{"content-type", "text/html"}]
@@ -26,27 +46,9 @@ defmodule DdsBlog.Handler do
 
   def get_file("GET", param, req) do
     headers = [{"content-type", "text/html"}]
+    params = %{headers: headers, req: req, param: param}
     file_read = File.read "priv/contents/" <> param <> ".md"
-    case file_read do
-      {:ok, file} ->
-        content = Markdown.to_html file
-        title = String.capitalize(param)
-        socials = EEx.eval_file "priv/themes/social_buttons.html.eex"
-        back = EEx.eval_file "priv/themes/back_button.html.eex"
-        comments = EEx.eval_file "priv/themes/comments.html.eex"
-        body = EEx.eval_file "priv/themes/index.html.eex",
-        [ content: content <> socials <> back <> comments,
-          title: title,
-
-        ]
-        {:ok, resp} = :cowboy_req.reply(200, headers, body, req)
-      {:error, _} ->
-        content = "Ooopppsss.. The article not found."
-        title = "Page not found"
-        body = EEx.eval_file "priv/themes/index.html.eex", [content: content, title: title]
-        {:ok, resp} = :cowboy_req.reply(404, headers, body, req)
-
-    end
+    render_and_generate_response(file_read, params)
   end
 
   def print_articles([h|t], index_contents) do

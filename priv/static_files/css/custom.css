@@ -48,3 +48,7 @@
 .share-buttons li{
   display: inline;
 }
+
+.header {
+  opacity: .6;
+}

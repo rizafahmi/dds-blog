@@ -29,8 +29,9 @@ defmodule DdsBlog.Handler do
         content = Markdown.to_html file
         title = String.capitalize(param)
         socials = EEx.eval_file "priv/themes/social_buttons.html.eex"
+        back = EEx.eval_file "priv/themes/back_button.html.eex"
         body = EEx.eval_file "priv/themes/index.html.eex",
-        [ content: content <> socials,
+        [ content: content <> socials <> back,
           title: title,
 
         ]

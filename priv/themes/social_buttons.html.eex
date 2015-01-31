@@ -1,3 +1,5 @@
+<hr>
+<h4>Share This</h4>
 <ul class="share-buttons">
   <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Felixirdose.com%2F&t=" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL)); return false;"><img src="/static/images/flat_web_icon_set/black/Facebook.png"></a></li>
   <li><a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Felixirdose.com%2F&text=:%20http%3A%2F%2Felixirdose.com%2F&via=rizafahmi22" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL)); return false;"><img src="/static/images/flat_web_icon_set/black/Twitter.png"></a></li>

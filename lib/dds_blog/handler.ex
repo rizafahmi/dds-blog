@@ -10,11 +10,14 @@ defmodule DdsBlog.Handler do
     {:ok, req, state}
   end
 
+
   def get_file("GET", :undefined, req) do
     headers = [{"content-type", "text/html"}]
-    # file_lists = File.ls! "priv/contents/"
-    {files, _} = System.cmd("ls", ["-t", "./priv/contents"])
-    file_lists = String.split(files, "\n") |> Enum.filter(fn(item) -> item != "" end)
+    contents = "priv/contents/"
+
+    file_lists = File.ls! contents
+    file_lists = Files.Sort.newest(file_lists)
+
     content = print_articles file_lists, ""
     title = "Welcome to DDS Blog"
     body = EEx.eval_file "priv/themes/index.html.eex", [content: content, title: title]

@@ -50,7 +50,7 @@ defmodule DdsBlog.Handler do
     {:ok, article} = File.read "priv/contents/" <> h
     sliced = String.slice article, 0, 1000
     marked = Markdown.to_html sliced
-    filename = String.slice(h, 0, String.length(h) - 3)
+    filename = Path.basename(h, ".md")
     more = EEx.eval_file "priv/themes/more_button.html.eex", [filename: filename]
     print_articles t, index_contents <> marked <> more
   end

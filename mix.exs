@@ -16,7 +16,8 @@ defmodule DdsBlog.Mixfile do
   defp deps do
     [
       {:cowboy, "1.0.0"},
-      {:markdown, github: "devinus/markdown"}
+      {:markdown, github: "devinus/markdown"},
+      {:timex, "0.13.3"}
     ]
   end
 end

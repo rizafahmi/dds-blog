@@ -36,7 +36,9 @@ defmodule DdsBlog.Handler do
     contents = "priv/contents/"
 
     file_lists = File.ls! contents
-    file_lists = Files.Sort.newest(file_lists)
+    # file_lists = Files.Sort.newest(file_lists)
+    {files, _} = System.cmd("ls", ["-t", "./priv/contents"])
+    file_lists = String.split(files, "\n") |> Enum.filter(fn(item) -> item != "" end)
 
     content = print_articles file_lists, ""
     title = "Welcome to DDS Blog"

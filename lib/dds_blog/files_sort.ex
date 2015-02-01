@@ -2,9 +2,14 @@ defmodule Files.Sort do
   use Timex
 
   def newest(list) do
-    list |> convert_files_and_dates
-         |> sort
-         |> List.flatten
+    extract_filename(list |> convert_files_and_dates
+                          |> Enum.sort_by &(Map.get(&1, :timestamp)))
+  end
+
+  def extract_filename([]), do: []
+
+  def extract_filename([head|tail]) do
+    [head[:filename]] ++ extract_filename(tail)
   end
 
   def convert_files_and_dates([]), do: []
@@ -14,23 +19,8 @@ defmodule Files.Sort do
     from = Date.from(mtime)
     timestamp = Date.convert(from, :secs)
 
-    state = %{filename: head, timestamp: timestamp}
-    [state | convert_files_and_dates(tail)]
+    filename = head
+    state = [%{filename: filename, timestamp: timestamp}]
+    state ++ convert_files_and_dates(tail)
   end
-
-  def sort([]), do: []
-
-  def sort([a, b | tail]) do
-    timestamp1 = a[:timestamp]
-    timestamp2 = b[:timestamp]
-
-    if timestamp1 < timestamp2 do
-      swap = [a[:filename], b[:filename]]
-    else
-      swap = [b[:filename], a[:filename]]
-    end
-
-    [swap | sort(tail)]
-  end
-
 end

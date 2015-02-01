@@ -62,11 +62,7 @@ Now run `mix deps.get` to pull all deps needed (Cowboy and its dependencies, as 
 
   [..]
 
-As you can see, we're pulling not only Cowboy package but also `cowlib` and `ranch` as packages that Cowboy's dependent on.
-
-## Create Cowboy Routes
-
-Ok now we'll create a helper function that defines a set of routes for our project.
+As you can see, we're pulling not only Cowboy package but also `cowlib` and `ranch` as packages that Cowboy is dependent on.
 
 ## Create Cowboy Routes
 
@@ -119,11 +115,13 @@ call it manually. Then our code would become something like this:
 
 Now when we run our application, it will respond to all requests to `http://localhost:8000/`.
 
+
 ## Creating Handler
 
-As you can see on the code above, we did pointing out route `"/"` into `DdsBlog.Handler`.
+As you can see on the code above, we pointed the route `"/"` into `DdsBlog.Handler`.
 Now we need to create that module to return some responses for any requests received.
-Let's create a new file in `lib/dds_blog/handler.ex` and put this code below.
+Let's create a new file in `lib/dds_blog/handler.ex` and put this code below:
+
 
     defmodule DdsBlog.Handler do
       def init({:tcp, :http}, req, opts) do
@@ -157,27 +155,15 @@ Now it's time for us to run this application for the first time.
 
     ==> ranch (compile)
     Compiled src/ranch_transport.erl
-    Compiled src/ranch_sup.erl
-    Compiled src/ranch_tcp.erl
-    Compiled src/ranch_ssl.erl
-    Compiled src/ranch_protocol.erl
-    Compiled src/ranch_listener_sup.erl
-    Compiled src/ranch_app.erl
-    Compiled src/ranch_acceptors_sup.erl
-    Compiled src/ranch_acceptor.erl
-    Compiled src/ranch.erl
-    Compiled src/ranch_server.erl
-    Compiled src/ranch_conns_sup.erl
+    [...]
     ==> cowlib (compile)
     Compiled src/cow_qs.erl
     Compiled src/cow_spdy.erl
-    Compiled src/cow_multipart.erl
-    Compiled src/cow_http_te.erl
-    Compiled src/cow_http_hd.erl
-    Compiled src/cow_date.erl
-    Compiled src/cow_http.erl
-    Compiled src/cow_cookie.erl
-    Compiled src/cow_mimetypes.erl
+    [...]
+    ==> cowboy (compile)
+    Compiled src/cowboy_sub_protocol.erl
+    Compiled src/cowboy_middleware.erl
+    Compiled src/cowboy_websocket_handler.erl
     [...]
     Generated dds_blog.app
 
@@ -207,26 +193,6 @@ shortly. But first, open up `lib/dds_blog.ex` and add one route for static files
 
         {:ok, _pid} = :cowboy.start_http(:http, 100, opts, [env: env])
       end
-
-Don't forget to add `priv/static_files`. All our static files
-will be in this directory.
-
-    $> mkdir -p priv/static_files
-
-Re-run `iex -S mix` command and then let's try to add static file inside `static_files`
-folder for sanity check. Then try to access it on the browser.
-
-![lily](http://i.imgur.com/ijQEq98.png)
-
-
-Easy, right?!
-
-## Serve Markdown File
-
-This is where the fun begin. The idea is this: when user entry `http://localhost:8000/some-markdown-file`
-our application will look through file named `some-markdown-file.md` inside `priv/contents/` folder,
-read through it, convert into html format and return it so the user will received
-html contents in their browser as the response.
 
 Don't forget to add `priv/static_files`. All our static files will be in this directory.
 
@@ -494,7 +460,6 @@ If we click the "More" button, we also see one beautiful detail page.
 We're pretty much finished here, but before we wrap up, make the "More" button more appealing to click then we refactor it a little bit.
 
 Let's do the "More" button first. Just add class `button button-primary` to the `a` tag.
->>>>>>> Add contents
 
     def print_articles [h|t], index_contents do
       {:ok, article} = File.read "priv/contents/" <> h

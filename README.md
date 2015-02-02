@@ -40,7 +40,9 @@ To make our application running, we'll need a server that can speak HTTP. We wil
 To add Cowboy to our project, simply add Cowboy as the dependency inside `mix.exs` file.
 
     defp deps do
+      [
         {:cowboy, "1.0.0"}
+      ]
     end
 
 We need also add `:cowboy` under `applications` function while we're editing `mix.exs`.

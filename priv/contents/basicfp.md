@@ -1,6 +1,8 @@
 # Functional Programming Basic Features
-/* metadata goes here: 12345 */
-/* metadata two goes here: 456 */
+<!--
+metadata goes here: 12345
+metadata two goes here: 456
+-->
 
 A couple week ago I read [this article](https://medium.com/@jugoncalves/functional-programming-should-be-your-1-priority-for-2015-47dd4641d6b9)  about why you should take a look at functional programming.
 Well, when you read and follow this blog you already did. One part that interesting

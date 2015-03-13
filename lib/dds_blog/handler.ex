@@ -11,6 +11,7 @@ defmodule DdsBlog.Handler do
   end
 
   def render_and_generate_response({:ok, file}, params) do
+
     content = Markdown.to_html file
     title = String.capitalize(params[:param])
     socials = EEx.eval_file "priv/themes/social_buttons.html.eex"
@@ -55,7 +56,11 @@ defmodule DdsBlog.Handler do
 
   def print_articles([h|t], index_contents) do
     {:ok, article} = File.read "priv/contents/" <> h
+
     sliced = String.slice article, 0, 1000
+    meta = Regex.scan(~r/\<\!\-\-(.*)?\-\-\>/suim, sliced)
+    meta_html = meta_generator meta, ""
+
     marked = Markdown.to_html sliced
     filename = Path.basename(h, ".md")
     more = EEx.eval_file "priv/themes/more_button.html.eex", [filename: filename]
@@ -64,6 +69,15 @@ defmodule DdsBlog.Handler do
 
   def print_articles [], index_contents do
     index_contents
+  end
+
+  defp meta_generator [h|t], meta_html do
+    meta_generator t, List.flatten [meta_html|h]
+  end
+
+  defp meta_generator [], meta_html do
+    meta_html
+    IO.inspect meta_html
   end
 
   def terminate(_reason, _req, _state) do

@@ -59,12 +59,19 @@ defmodule DdsBlog.Handler do
 
     sliced = String.slice article, 0, 1000
     meta = Regex.scan(~r/\<\!\-\-(.*)?\-\-\>/suim, sliced)
-    meta_html = meta_generator meta, ""
+    if List.first(meta) != nil do
+      meta_html = meta_generator meta, ""
+      cleaned_meta = Enum.filter(meta_html, fn(x) -> String.length(x) > 0 end)
+      meta_print_html = meta_print cleaned_meta, ""
+    else
+      meta_print_html = ""
+    end
+
 
     marked = Markdown.to_html sliced
     filename = Path.basename(h, ".md")
     more = EEx.eval_file "priv/themes/more_button.html.eex", [filename: filename]
-    print_articles t, index_contents <> marked <> more
+    print_articles t, index_contents <> meta_print_html <>  marked <> more
   end
 
   def print_articles [], index_contents do
@@ -75,9 +82,30 @@ defmodule DdsBlog.Handler do
     meta_generator t, List.flatten [meta_html|h]
   end
 
+
   defp meta_generator [], meta_html do
     meta_html
-    IO.inspect meta_html
+  end
+
+  defp meta_print [h|t], print do
+    meta = Regex.named_captures(~r/\<\!\-\-(?<e>.*)?\-\-\>/suim, h)
+    metas = Dict.fetch!(meta, "e")
+      |> String.split "\n"
+    metas = Enum.filter metas, fn(x) -> String.length(x) > 0 end
+    metas = get_metadata metas, ""
+    # IO.inspect String.split meta[e], "\n"
+  end
+
+  defp get_metadata [h|t], string do
+    # type_value = Regex.named_captures(~r/(?<type>[\w\s]+):\s(?<value>.+)/sium, h)
+    # IO.inspect Dict.fetch!(type_value, "type")
+    # IO.inspect Dict.fetch!(type_value, "value")
+    new_string = "<small>" <> h <> "</small>"
+    get_metadata t, string <> new_string
+  end
+
+  defp get_metadata [], string do
+    string
   end
 
   def terminate(_reason, _req, _state) do

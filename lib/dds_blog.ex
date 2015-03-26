@@ -24,6 +24,7 @@ defmodule DdsBlog do
     opts = [port: 8000]
     env = [dispatch: dispatch]
 
+    IO.puts "Running at http://localhost:8000"
     {:ok, _pid} = :cowboy.start_http(:http, 100, opts, [env: env])
   end
 end

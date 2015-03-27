@@ -182,7 +182,6 @@ shortly. But first, open up `lib/dds_blog.ex` and add one route for static files
 
       def run do
         routes = [
-          {"/:something", DdsBlog.Handler, []},
           {"/static/[...]", :cowboy_static, {:priv_dir, :dds_blog, "static_files"}}
         ]
 

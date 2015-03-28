@@ -1,1 +1,1 @@
-<a class='button button-primary' href='<%= filename %>'>More</a><hr />
+<a class='button button-primary' href='post/<%= filename %>'>Read</a><hr />

@@ -66,6 +66,7 @@
     <div class="row" style="padding-top: 20px">
       <%= content %>
     </div>
+    <footer><a href="#">All Articles</a></footer>
   </div>
 
 <!-- End Document

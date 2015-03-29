@@ -54,6 +54,10 @@
 }
 
 footer {
+  padding-top: 20px;
   padding-bottom: 40px;
+}
+
+.articles {
   text-align: right;
 }

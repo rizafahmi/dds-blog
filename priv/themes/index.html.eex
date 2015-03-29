@@ -66,7 +66,21 @@
     <div class="row" style="padding-top: 20px">
       <%= content %>
     </div>
-    <footer><a href="#">All Articles</a></footer>
+    <footer>
+      <div class="contaier">
+        <div class="row">
+          <div class="one-third column">
+            <a href="https://mixpanel.com/f/partner"><img src="//cdn.mxpnl.com/site_media/images/partner/badge_light.png" alt="Mobile Analytics" /></a>
+          </div>
+          <div class="one-third column">
+            Powered By <a href="https://github.com/rizafahmi/dds-blog" target="_blank">DDS Blog Engine</a>
+          </div>
+          <div class="articles one-third column">
+            <a href="#">All Articles</a>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 
 <!-- End Document

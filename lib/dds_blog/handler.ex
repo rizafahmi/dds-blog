@@ -41,7 +41,7 @@ defmodule DdsBlog.Handler do
     {files, _} = System.cmd("ls", ["-t", "./priv/contents"])
     file_lists = String.split(files, "\n")
       |> Enum.filter(fn(item) -> item != "" end)
-      |> Enum.take 5
+      |> Enum.take 10
 
     content = print_articles file_lists, ""
     title = "Welcome to DDS Blog"

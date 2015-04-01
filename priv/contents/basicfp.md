@@ -1,7 +1,4 @@
 # Functional Programming Basic Features
-<!--
-Published On 25-05-2015
--->
 
 A couple week ago I read [this article](https://medium.com/@jugoncalves/functional-programming-should-be-your-1-priority-for-2015-47dd4641d6b9)  about why you should take a look at functional programming.
 Well, when you read and follow this blog you already did. One part that interesting

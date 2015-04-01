@@ -61,3 +61,12 @@ footer {
 .articles {
   text-align: right;
 }
+
+blockquote {
+  border-left: 5px solid #cacaca;
+}
+
+blockquote p {
+  padding-left: 20px;
+  color: grey;
+}

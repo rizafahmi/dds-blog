@@ -71,49 +71,49 @@ Open the browser, type `http://localhost:4000/` in the url bar, and voila!
 
 Phoenix is Model-View-Controller, so we find the Phoenix directories structured in that way.
 
-  ./
-  ├── README.md
-    ├── _build
-    ├── config
-    │   ├── config.exs
-    │   ├── dev.exs
-    │   ├── locales
-    │   │   └── en.exs
-    │   ├── prod.exs
-    │   └── test.exs
-    ├── deps
-    ├── lib
-    │   ├── hello_phoenix
-    │   │   └── supervisor.ex
-    │   └── hello_phoenix.ex
-    ├── mix.exs
-    ├── mix.lock
-    ├── priv
-    │   └── static
-    │       ├── css
-    │       │   └── app.css
-    │       ├── images
-    │       └── js
-    │           └── phoenix.js
-    ├── test
-    │   ├── hello_phoenix_test.exs
-    │   └── test_helper.exs
-    └── web
-    ├── channels
-    ├── controllers
-        │   └── page_controller.ex
-        ├── i18n.ex
-        ├── models
-        ├── router.ex
-        ├── templates
-        │   ├── layout
-        │   │   └── application.html.eex
-        │   └── page
-        │       └── index.html.eex
-        ├── views
-        │   ├── layout_view.ex
-        │   └── page_view.ex
-        └── views.ex
+    ./
+    ├── README.md
+      ├── _build
+      ├── config
+      │   ├── config.exs
+      │   ├── dev.exs
+      │   ├── locales
+      │   │   └── en.exs
+      │   ├── prod.exs
+      │   └── test.exs
+      ├── deps
+      ├── lib
+      │   ├── hello_phoenix
+      │   │   └── supervisor.ex
+      │   └── hello_phoenix.ex
+      ├── mix.exs
+      ├── mix.lock
+      ├── priv
+      │   └── static
+      │       ├── css
+      │       │   └── app.css
+      │       ├── images
+      │       └── js
+      │           └── phoenix.js
+      ├── test
+      │   ├── hello_phoenix_test.exs
+      │   └── test_helper.exs
+      └── web
+      ├── channels
+      ├── controllers
+          │   └── page_controller.ex
+          ├── i18n.ex
+          ├── models
+          ├── router.ex
+          ├── templates
+          │   ├── layout
+          │   │   └── application.html.eex
+          │   └── page
+          │       └── index.html.eex
+          ├── views
+          │   ├── layout_view.ex
+          │   └── page_view.ex
+          └── views.ex
 
 We need to focus on the `web` directory. Our controllers should be inside the `web/controllers` directory. Our views are in `web/views` and templates in `web/templates`. In Phoenix, views will render templates. A template is basically an `eex` file.
 
@@ -247,12 +247,12 @@ Running the migration is very easy. Let's do one:
 That's it! If you open the `phoenix_jobs` database on postgresql, you'll find a `jobs` table now. If we run `SELECT * FROM jobs`, the dummy data is there:
 
      Column    |          Type          |                   SELECT * FROM jobs;
-  id |        title         | job_type |                                   description
-                        | job_status
-  ----+----------------------+----------+---------------------------------------------------------
-  ------------------------+------------
+    id |        title         | job_type |                                   description
+                          | job_status
+    ----+----------------------+----------+---------------------------------------------------------
+    ------------------------+------------
     1 | Elixir Expert Needed | Remote   | Elixir expert needed for writing article about Elixir every single week or two. | Part Time
-  (1 row)
+    (1 row)
 
 One last thing we need from Ecto is to write a query for jobs.
 

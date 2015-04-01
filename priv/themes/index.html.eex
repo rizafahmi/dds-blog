@@ -28,6 +28,10 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="/static/images/favicon.png">
 
+
+  <!-- SUMO ME -->
+  <script src="//load.sumome.com/" data-sumo-site-id="235b11331b4324d11284b36d1438fc79052802d72cc0a89bbbeb592d0d494291" async="async"></script>
+
 </head>
 <body>
 

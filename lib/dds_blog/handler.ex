@@ -14,11 +14,10 @@ defmodule DdsBlog.Handler do
 
     content = Markdown.to_html file
     title = get_title params[:param]
-    socials = EEx.eval_file "priv/themes/social_buttons.html.eex"
     back = EEx.eval_file "priv/themes/back_button.html.eex"
     comments = EEx.eval_file "priv/themes/comments.html.eex"
     body = EEx.eval_file "priv/themes/index.html.eex",
-    [ content: content <> socials <> back <> comments,
+    [ content: content <> back <> comments,
       title: title,
 
     ]

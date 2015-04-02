@@ -13,7 +13,7 @@ defmodule DdsBlog.Handler do
   def render_and_generate_response({:ok, file}, params) do
 
     content = Markdown.to_html file
-    title = String.capitalize(params[:param])
+    title = get_title params[:param]
     socials = EEx.eval_file "priv/themes/social_buttons.html.eex"
     back = EEx.eval_file "priv/themes/back_button.html.eex"
     comments = EEx.eval_file "priv/themes/comments.html.eex"
@@ -108,6 +108,14 @@ defmodule DdsBlog.Handler do
 
   defp get_metadata [], string do
     string
+  end
+
+  defp get_title filename do
+    fullpath = "priv/contents/" <> filename <> ".md"
+    [h_stream|_] = File.stream!(fullpath, [], 100) |> Enum.take 1
+    [h_split|_] = String.split h_stream, "\n"
+    title = String.slice h_split, 2..-1
+    "ElixirDose - " <> title
   end
 
   def terminate(_reason, _req, _state) do

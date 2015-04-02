@@ -6,6 +6,8 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
   <title><%= title %></title>
+  <meta name="blitz" content="mu-c0f0b69c-0be63ad7-0348da64-81288ed2">
+
   <meta name="description" content="">
   <meta name="author" content="">
 

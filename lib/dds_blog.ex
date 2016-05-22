@@ -1,29 +1,28 @@
 defmodule DdsBlog do
   use Application
 
+  # See http://elixir-lang.org/docs/stable/elixir/Application.html
+  # for more information on OTP Applications
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
     children = [
-      worker(__MODULE__, [], function: :run)
+      # Start the endpoint when the application starts
+      supervisor(DdsBlog.Endpoint, []),
+      # Here you could define other workers and supervisors as children
+      # worker(DdsBlog.Worker, [arg1, arg2, arg3]),
     ]
 
+    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
+    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: DdsBlog.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
-  def run do
-    routes = [
-      {"/", DdsBlog.Handler, []},
-      {"/:filename", DdsBlog.Handler, []},
-      {"/static/[...]", :cowboy_static, {:priv_dir, :dds_blog, "static_files"}}
-    ]
-
-    dispatch = :cowboy_router.compile([{:_, routes}])
-
-    opts = [port: 8000]
-    env = [dispatch: dispatch]
-
-    {:ok, _pid} = :cowboy.start_http(:http, 100, opts, [env: env])
+  # Tell Phoenix to update the endpoint configuration
+  # whenever the application is updated.
+  def config_change(changed, _new, removed) do
+    DdsBlog.Endpoint.config_change(changed, removed)
+    :ok
   end
 end

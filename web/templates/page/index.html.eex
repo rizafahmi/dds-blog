@@ -1,8 +1,10 @@
 <%= for post <- @posts do %>
   <article class="row">
-    <h2><%= post.title %></h2>
-    <p><%= Timex.format!(post.date, "{Mshort} {D} {YYYY}") %></p>
-    <p><%= post.intro %></p>
-    <p><a href="<%= post_path(@conn, :show, post.slug) %>">Read post</a></p>
+    <div class="col-xs-4 col-xs-offset-4">
+      <h2><%= post.title %></h2>
+      <p><%= Timex.format!(post.date, "{Mshort} {D} {YYYY}") %></p>
+      <p><%= post.intro %></p>
+      <p><a href="<%= post_path(@conn, :show, post.slug) %>">Read post</a></p>
+    </div>
   </article>
 <% end %>

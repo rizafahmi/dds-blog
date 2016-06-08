@@ -2,9 +2,9 @@
   <article class="row">
     <div class="col-xs-4 col-xs-offset-4">
       <h2><%= post.title %></h2>
-      <p><%= Timex.format!(post.date, "{Mshort} {D} {YYYY}") %></p>
+      <!-- <p><%= Timex.format!(post.date, "{Mshort} {D} {YYYY}") %></p> -->
       <p><%= post.intro %></p>
-      <p><a href="<%= post_path(@conn, :show, post.slug) %>">Read post</a></p>
+      <p><a class="button button-primary" href="<%= post_path(@conn, :show, post.slug) %>">Read</a></p>
     </div>
   </article>
 <% end %>

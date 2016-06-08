@@ -1,3 +1,4 @@
+require IEx
 defmodule DdsBlog.Post do
   defstruct slug: "", title: "", date: "", intro: "", content: ""
 
@@ -7,6 +8,7 @@ defmodule DdsBlog.Post do
       slug: file_to_slug(file)
     }
 
+    IEx.pry
     Path.join(["priv/posts", file])
     |> File.read!
     |> split

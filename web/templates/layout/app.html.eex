@@ -8,21 +8,72 @@
     <meta name="author" content="">
 
     <title>Hello DdsBlog!</title>
+    <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
 
   </head>
 
   <body>
-    <div id="content">
-      <!-- blog posts go here -->
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+    <div class="container">
+      <nav class="navbar">
+        <div class="container">
+          <ul class="navbar-list">
+            <li class="navbar-item"><a class="navbar-link" href="/">ElixirDose: A Dose of Elixir Programming Language</a></li>
+          </ul>
+        </div>
+      </nav>
 
-      <%= render @view_module, @view_template, assigns %>
+      <section class="header">
+        <h2 class="title"><a href="http://elixirdose.com/">ElixirDose</a></h2>
+        <p>Journal of the overlooked tiny bits in young programming language. Will update weekly or two, as a way to build the habit of writing something on a regular basis. Authored by <a href="https://twitter.com/rizafahmi22" target="_blank">Riza</a> and <a href="https://twitter.com/augiedb" target="_blank">Augie</a> as Editor In Chief.</p>
+
+        <form action="http://elixirdose.us4.list-manage2.com/subscribe/post?u=73c2706174b7f2703c432c70c&amp;id=f7b2717e3a" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="" _lpchecked="1">
+          <div class="row">
+            <div class="six columns">
+              <input class="u-full-width" type="email" placeholder="A dose to your inbox!" name="EMAIL" id="mce=EMAIL">
+            </div>
+            <div class="six columns">
+              <button type="submit" class="button-primary">Engage!</button>
+            </div>
+          </div>
+        </form>
+      </section>
 
 
+      <hr />
+      <div class="row" style="padding-top: 20px">
+        <!-- blog posts go here -->
+        <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+        <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+        <%= render @view_module, @view_template, assigns %>
+
+
+
+      </div>
+
+      <hr />
+      <footer>
+        <div class="contaier">
+          <div class="row">
+            <div class="one-third column">
+              &nbsp;
+            </div>
+            <div class="one-third column">
+              Powered By <a href="https://github.com/rizafahmi/dds-blog" target="_blank">DDS Blog Engine</a>
+            </div>
+            <div class="articles one-third column">
+              <a href="#">All Articles</a>
+            </div>
+          </div>
+        </div>
+      </footer>
 
     </div>
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

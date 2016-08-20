@@ -299,7 +299,7 @@ But first we open just one markdown file for sanity check, as usual.
     end
 
 And then we put some markdown file, just rename it to `filename.md` and put it to
-`priv/contenst` folder. Make it if the folder doesn't exist yet.
+`priv/contents` folder. Make it if the folder doesn't exist yet.
 What we've done is first we do use `:cowboy.bindings` to get a filename from
 urls. Then we passed the parameter into helper function called `get_file`.
 `get_file` function have two type: one with parameter and one more without parameter (a.k.a `:undefined` parameter).
